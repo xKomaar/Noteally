@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8" />
+	<title>Homepage</title>
+	<link rel="stylesheet" th:href="@{/css/homePage.css}" />
+</head>
+<body>
+<div class="background">
+	<section class="wrapper">
+		<div class="container">
+			<div id="scene" class="scene" data-hover-only="false">
+				<div class="circle" data-depth="1.2"></div>
+
+				<div class="one" data-depth="0.9">
+					<div class="content">
+						<span class="piece"></span>
+						<span class="piece"></span>
+						<span class="piece"></span>
+					</div>
+				</div>
+
+				<div class="two" data-depth="0.60">
+					<div class="content">
+						<span class="piece"></span>
+						<span class="piece"></span>
+						<span class="piece"></span>
+					</div>
+				</div>
+
+				<div class="three" data-depth="0.40">
+					<div class="content">
+						<span class="piece"></span>
+						<span class="piece"></span>
+						<span class="piece"></span>
+					</div>
+				</div>
+				<p class="NoteAlly" data-depth="0.50"><span class="note">Note</span><span class="ally">ally</span></p>
+				<p class="Noteally" data-depth="0.10">NoteAlly</p>
+			</div>
+
+			<div class="text">
+				<article>
+					<p>Have your notes totally under control!
+						<br />Make your own notes!</p>
+					<button class="button-link" onclick="document.getElementById('loginLink').click()">
+						<span><a id="loginLink" th:href="@{/login}">Log In!</a></span>
+					</button>
+				</article>
+			</div>
+		</div>
+	</section>
+</div>
+
+<div class="cursor"></div>
+<script type="text/javascript" th:src="@{/js/cursor.js}"></script>
+<script type="text/javascript" th:src="@{/js/home.js}"></script>
+</body>
+</html>

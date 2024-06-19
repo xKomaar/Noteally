@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<meta charset="UTF-8" />
+		<title>Register</title>
+
+		<link rel="stylesheet" th:href="@{/css/register.css}" />
+
+		<script src="https://kit.fontawesome.com/30b5c3e166.js" crossorigin="anonymous"></script>
+	</head>
+	<body>
+		<section>
+			<div class="login-box">
+				<form th:action="@{/register}" th:method="post" th:object="${user}">
+					<h2 class="note">Registration<span class="ally">Form</span></h2>
+					<div class="input-box">
+						<span><i class="fa-sharp fa-solid fa-user"></i></span>
+						<input type="text" id="email" name="email" th:field="*{email}" th:value="${email}"/>
+						<label for="email">Email<div th:if="${#fields.hasErrors('email') || emailTaken!=null}" class="error-label-name">
+						<span th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
+						<span th:if="${emailTaken!=null}" th:text="${emailTaken}"></span></div></label>
+					</div>
+					<div class="input-box">
+						<span><i class="fa-sharp fa-solid fa-signature"></i></span>
+						<input type="text" id="name" name="name" th:field="*{name}" th:value="${name}"/>
+						<label for="name">Name<div th:if="${#fields.hasErrors('name')}" class="error-label-name">
+						<span th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span></div></label>
+					</div>
+					<div class="input-box">
+						<span><i class="fa-sharp fa-solid fa-signature"></i></span>
+						<input type="text" id="surname" name="surname" th:field="*{surname}" th:value="${surname}"/>
+						<label for="surname">Surname<div class="error-label-name" th:if="${#fields.hasErrors('surname')}" th:errors="*{surname}"></div></label>
+					</div>
+					<div class="input-box">
+						<span><i class="fa-sharp fa-solid fa-calendar"></i></span>
+						<input type="number" id="age" name="age" th:field="*{age}" th:value="${age}"/>
+						<label for="age">Age<div class="error-label-name" th:if="${#fields.hasErrors('age')}" th:errors="*{age}"></div></label>
+					</div>
+					<div class="input-box">
+						<span><i class="fa-sharp fa-solid fa-lock"></i></span>
+						<input type="password" id="password" name="password"th:field="*{password}" th:value="${password}"/>
+						<label for="password">Password<div class="error-label-name" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div></label>
+					</div>
+
+					<div class="input-box">
+						<span><i class="fa-sharp fa-solid fa-check"></i></span>
+						<input type="password" id="confirmPassword" name="confirmPassword" />
+						<label for="confirmPassword">Confirm Password<div class="error-label-name" th:if="${confirmError!=null}" th:text="${confirmError}"></div></label>
+					</div>
+
+					<button type="submit">Register</button>
+				</form>
+			</div>
+		</section>
+		<div class="cursor"></div>
+		<script type="text/javascript" th:src="@{/js/cursor.js}"></script>
+	</body>
+</html>

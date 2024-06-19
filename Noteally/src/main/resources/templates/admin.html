@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin</title>
+    <link rel="stylesheet" th:href="@{/css/admin.css}" />
+    <script src="https://kit.fontawesome.com/30b5c3e166.js" crossorigin="anonymous"></script>
+</head>
+<body>
+<div class="container">
+    <div class="sidebar">
+        <h1 class="note">Note<span class="ally">ally</span></h1>
+        <div class="side-wrapper">
+            <div class="side-title">SORT OPTIONS</div>
+            <div class="side-menu">
+                <a th:href="@{'/admin/ASC' }" th:value="1" ><i class="sort fa-solid fa-arrow-down-a-z"></i></a>
+                <a th:href="@{'/admin/DESC' }" th:value="2"><i class="sort fa-solid fa-arrow-up-a-z"></i></a>
+                <a th:href="@{'/admin' }" th:value="3" ><i class="sort fa-solid fa-filter-circle-xmark"></i></a>
+            </div>
+        </div>
+        <div class="line"></div>
+    </div>
+    <div class="wrapper">
+        <div class="header">
+            <nav class="nav">
+                <a th:href="@{'/admin'}" class="nav-item is-active" active-color="red">ADMIN</a>
+                <a th:href="@{'/catalogs'}" class="nav-item" active-color="pink">Catalogs</a>
+                <a th:href="@{/logout}" class="nav-item" active-color="pink">Sign Out!</a>
+                <span class="nav-indicator"></span>
+            </nav>
+        </div>
+        <div class="main-container">
+            <div class="anim main-user" style="--delay: 0.1s">
+                <ul th:each="user : ${userList}">
+                    <div class="container-user">
+                        <li>
+                            <i class="fa-solid fa-user"></i>
+                            <p
+                                    th:href="@{'/admin/' + ${user.getId()}}"
+                                    th:text="${user.getEmail()}"
+                            >Email</p
+                            >
+                        </li>
+                        <a th:href="@{'/admin/' + 'deleteUser/' + ${user.getId()}}"
+                        ><i class="fa-solid fa-xmark"></i
+                        ></a>
+
+                        <a th:href="@{'/admin/' + 'editUser/' + ${user.getId()}}"
+                        ><i class="fa-regular fa-pen-to-square"></i
+                        ></a>
+                    </div>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript" th:src="@{/js/catalogs.js}"></script>
+</body>
+</html>

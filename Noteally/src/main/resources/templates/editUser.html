@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+	<meta charset="UTF-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>Edit User</title>
+	<link rel="stylesheet" th:href="@{/css/admin.css}" />
+    <link rel="stylesheet" href="../static/css/admin.css">
+	<script src="https://kit.fontawesome.com/30b5c3e166.js" crossorigin="anonymous"></script>
+</head>
+<body>
+<div class="container">
+	<div class="sidebar">
+		<h1 class="note">Note<span class="ally">ally</span></h1>
+		<div class="side-wrapper">
+			<div class="side-title">SORT OPTIONS</div>
+			<div class="side-menu">
+				<a th:href="@{'/admin/ASC' }" th:value="1" ><i class="sort fa-solid fa-arrow-down-a-z"></i></a>
+				<a th:href="@{'/admin/DESC' }" th:value="2"><i class="sort fa-solid fa-arrow-up-a-z"></i></a>
+				<a th:href="@{'/admin' }" th:value="3" ><i class="sort fa-solid fa-filter-circle-xmark"></i></a>
+			</div>
+		</div>
+		<div class="line"></div>
+	</div>
+	<div class="wrapper">
+		<div class="header">
+			<nav class="nav">
+				<a th:href="@{'/admin'}" class="nav-item is-active" active-color="red">Panel Admin</a>
+				<a th:href="@{'/catalogs'}" class="nav-item is-active" active-color="pink">Catalogs</a>
+				<a th:href="@{/logout}" class="nav-item" active-color="pink">Sign Out!</a>
+				<span class="nav-indicator"></span>
+			</nav>
+		</div>
+		<div class="main-container">
+			<div class="anim main-user" style="--delay: 0.1s">
+				<ul th:each="user : ${userList}">
+					<div class="container-user">
+						<li>
+							<i class="fa-solid fa-user"></i>
+							<a
+									th:href="@{'/admin/' + ${user.getId()}}"
+									th:text="${user.getName()}"
+							>Email</a
+							>
+						</li>
+						<a th:href="@{'/admin/' + 'deleteUser/' + ${user.getId()}}"
+						><i class="fa-solid fa-xmark"></i
+						></a>
+
+						<a th:href="@{'/admin/' + 'editUser/' + ${user.getId()}}"
+						><i class="fa-regular fa-pen-to-square"></i
+						></a>
+					</div>
+				</ul>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="edit-user">
+	<div class="box-user">
+		<form th:action="@{'/admin/' + 'editUser/' + ${user.getId()}}" th:method="post" th:object="${user}">
+			<h2 class="note">Edit <span class="ally">User</span></h2>
+			<div class="input-box">
+				<input type="text" id="email" name="email" th:field="*{email}" />
+				<label for="email">Email<div class="error-label-name" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div></label>
+			</div>
+			<div class="input-box">
+				<input type="text" id="name" name="name" th:field="*{name}" />
+				<label for="name">Name<div class="error-label-name" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div></label>
+			</div>
+			<div class="input-box">
+				<input type="text" id="surname" name="surname" th:field="*{surname}" />
+				<label for="surname">Surname<div class="error-label-name" th:if="${#fields.hasErrors('surname')}" th:errors="*{surname}"></div></label>
+			</div>
+			<div class="input-box">
+				<input type="text" id="age" name="age" th:field="*{age}" />
+				<label for="age">Age<div class="error-label-name" th:if="${#fields.hasErrors('age')}" th:errors="*{age}"></div></label>
+			</div>
+			<div class="input-box">
+				<select id="role" name="role" th:field="*{role}">
+					<option value="ADMIN">ADMIN</option>
+					<option value="USER">USER</option>
+					<option value="SUSPENDED">SUSPENDED</option>
+				</select>
+				<label for="role">Role</label>
+			</div>
+
+			<div class="input-box password">
+				<input type="text" id="password" name="password" th:field="*{password}" />
+				<label for="password">Password</label>
+			</div>
+			<button type="submit">Confirm</button>
+		</form>
+		<a th:href="@{'/admin'}"
+		><i class="fa-solid fa-xmark"></i
+		></a>
+	</div>
+</div>
+
+<script type="text/javascript" th:src="@{/js/catalogs.js}"></script>
+</body>
+</html>
