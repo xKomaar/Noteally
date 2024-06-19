@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="pl">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Notes</title>
+		<link rel="stylesheet" th:href="@{/css/notes.css}" />
+		<link rel="stylesheet" th:href="@{/css/boxshadows.css}" />
+		<script src="https://kit.fontawesome.com/30b5c3e166.js" crossorigin="anonymous"></script>
+	</head>
+	<body>
+		<div class="container">
+			<div class="sidebar">
+				<h1 class="note">Note<span class="ally">ally</span></h1>
+				<div class="side-wrapper">
+					<div class="side-title">CATALOG: <span class="name-catalog" th:text="${catalog.getName()}">Katalog</span></div>
+					<div class="side-menu">
+						<a th:href="@{'/catalogs/' + ${catalog.getId()}+'/ASC'}" th:value="1" ><i class="sort fa-solid fa-arrow-down-a-z"></i></a>
+						<a th:href="@{'/catalogs/' + ${catalog.getId()}+'/DESC'}" th:value="2" ><i class="sort fa-solid fa-arrow-up-a-z"></i></a>
+						<a th:href="@{'/catalogs/' + ${catalog.getId()}+'/dataASC'}" th:value="3" ><i class="sort fa-regular fa-calendar-plus"></i></a>
+						<a th:href="@{'/catalogs/' + ${catalog.getId()}+'/dataDESC'}" th:value="4" ><i class="sort fa-regular fa-calendar-minus"></i></a>
+						<a th:href="@{'/catalogs/' + ${catalog.getId()}+'/deleteFilters'}" th:value="5" ><i class="fa-solid fa-filter-circle-xmark"></i></a>
+					</div>
+				</div>
+				<div class="line"></div>
+				<div  class="add-note anim" style="--delay: 0.2s">
+					<form class="dates" th:action="@{'/catalogs/' + ${catalog.getId()} + '/filterByDates'}" th:method="post">
+						<label class="label-date">
+							<span class="date-note">From: </span>
+							<input type="date" name="startDate" th:value="${oldDate}" />
+						</label>
+						<label class="label-date">
+							<span class="date-note">To: </span>
+							<input type="date" name="endDate" th:value="${newDate}" />
+						</label>
+						<button class="filter" type="submit"><i class="fa-solid fa-filter" ></i></button>
+					</form>
+					<a th:if="${catalog.getName() != 'shared'}" th:href="@{'/catalogs/' + ${catalog.getId()} + '/createNote'}"
+					><i class="fa-regular fa-square-plus"></i
+					></a>
+
+				</div>
+				<div th:if="${catalog.getName() != 'shared'}" class="line-share"></div>
+				<div th:if="${catalog.getName() != 'shared'}" class="user-share anim" style="--delay: 0.2s">
+					<p class="side-title">SHARING FROM THIS CATALOG:</p>
+					<p th:if="${sharedNotes.size() == 0}" class="side-title-wrong">You don't share any notes from here!</p>
+					<div th:each="share : ${sharedNotes}">
+						<p
+							th:if="${share.getNote().getCatalog().getId() == catalog.getId()}"
+							class="user-note"
+							th:text="${'FOR: ' + share.getUser().getEmail() + ' - ' + share.getNote().getTitle()}"></p>
+						<a
+							th:if="${share.getNote().getCatalog().getId() == catalog.getId()}"
+							th:href="@{'/catalogs/' + ${catalog.getId()} + '/deleteSharedNote/' + ${share.getId()}}"
+							><i class="fa-solid fa-delete-left"></i
+						></a>
+					</div>
+				</div>
+			</div>
+			<div class="wrapper">
+				<div class="header">
+					<form class="search-bar" th:action="@{'/catalogs/' + ${catalog.getId()} + '/search'}" th:method="post">
+						<input type="text" id="search" name="search" placeholder="Search" />
+						<button class="search" type="submit"><i class="fa-sharp fa-solid fa-magnifying-glass"></i></button>
+					</form>
+
+					<nav class="nav">
+						<a th:if="${user.getRole().toString().equals('ADMIN')}" th:href="@{'/admin'}" class="nav-item" active-color="red">ADMIN</a>
+						<a th:text="${catalog.getName()}" class="nav-item is-active" active-color="pink">Catalog</a>
+						<a th:href="@{'/catalogs'}" class="nav-item" active-color="pink">Catalogs</a>
+						<a th:href="@{/logout}" class="nav-item" active-color="pink">Sign Out!</a>
+						<span class="nav-indicator"></span>
+					</nav>
+				</div>
+				<div class="main-container">
+					<div class="anim main-notes" style="--delay: 0.1s">
+						<ul th:each="note, i: ${notes}">
+							<div class="container-notes">
+								<div class="testimonial">
+									<p th:if="${catalog.getName() == 'shared'}" th:text="'From: ' + ${note.getOwner()}"></p>
+									<h3 th:text="${note.getTitle()}"></h3>
+									<p th:text="${note.getContent()}"></p>
+									<span class="date" th:text="${note.getDate()}"></span>
+									<a
+										th:if="${!note.getLink().equals('')}"
+										class="link"
+										th:href="'https://' + ${note.getLink()}"
+										th:text="${note.getLink()}"
+										target="_blank"></a>
+								</div>
+								<div th:if="${catalog.getName() != 'shared'}">
+									<a th:href="@{'/catalogs/' + ${catalog.getId()} + '/deleteNote/' +${note.getId()}}"
+										><i class="fa-solid fa-xmark"></i
+									></a>
+									<a th:href="@{'/catalogs/' + ${catalog.getId()} + '/editNote/' +${note.getId()}}"
+										><i class="fa-regular fa-pen-to-square"></i
+									></a>
+									<a th:href="@{'/catalogs/' + ${catalog.getId()} + '/shareNote/' +${note.getId()}}"
+										><i class="fa-sharp fa-solid fa-share"></i
+									></a>
+								</div>
+							</div>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<script type="text/javascript" th:src="@{/js/notes.js}"></script>
+	</body>
+</html>
